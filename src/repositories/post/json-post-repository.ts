@@ -1,7 +1,7 @@
 import { PostModel } from '@/models/post/post-model';
-import { PostRepository } from './post-repository';
-import { resolve } from 'path';
 import { readFile } from 'fs/promises';
+import { resolve } from 'path';
+import { PostRepository } from './post-repository';
 
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILES_PATH = resolve(
@@ -9,8 +9,10 @@ const JSON_POSTS_FILES_PATH = resolve(
   'src',
   'db',
   'seed',
-  'posts.json',
+  'posts.json'
 );
+
+const TIMEOUT = 0;
 
 class JsonPostRepository implements PostRepository {
   private async readFromDisk(): Promise<PostModel[]> {
@@ -21,13 +23,15 @@ class JsonPostRepository implements PostRepository {
   }
 
   async findAll(): Promise<PostModel[]> {
+    await new Promise(resolve => setTimeout(resolve, TIMEOUT));
     const posts = await this.readFromDisk();
     return posts;
   }
 
   async findById(id: string): Promise<PostModel> {
+    await new Promise(resolve => setTimeout(resolve, TIMEOUT));
     const posts = await this.readFromDisk();
-    const post = posts.find((post) => post.id === id);
+    const post = posts.find(post => post.id === id);
 
     if (!post) throw new Error('Post não encontrado');
 
