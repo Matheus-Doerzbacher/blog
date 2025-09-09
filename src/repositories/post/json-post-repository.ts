@@ -12,10 +12,11 @@ const JSON_POSTS_FILES_PATH = resolve(
   'posts.json'
 );
 
-const TIMEOUT = 0;
+const TIMEOUT = 1000;
 
-class JsonPostRepository implements PostRepository {
+export class JsonPostRepository implements PostRepository {
   private async readFromDisk(): Promise<PostModel[]> {
+    await new Promise(resolve => setTimeout(resolve, TIMEOUT));
     const json = await readFile(JSON_POSTS_FILES_PATH, 'utf-8');
     const parsedJson = JSON.parse(json);
     const { posts } = parsedJson;
@@ -24,13 +25,11 @@ class JsonPostRepository implements PostRepository {
 
   async findAllPublic(): Promise<PostModel[]> {
     console.log('\nfindAllPublic\n');
-    await new Promise(resolve => setTimeout(resolve, TIMEOUT));
     const posts = await this.readFromDisk();
     return posts.filter(post => post.published);
   }
 
   async findById(id: string): Promise<PostModel> {
-    await new Promise(resolve => setTimeout(resolve, TIMEOUT));
     const posts = await this.readFromDisk();
     const post = posts.find(post => post.id === id);
 
@@ -38,6 +37,13 @@ class JsonPostRepository implements PostRepository {
 
     return post;
   }
-}
 
-export const postRepository: PostRepository = new JsonPostRepository();
+  async findBySlug(slug: string): Promise<PostModel> {
+    const posts = await this.readFromDisk();
+    const post = posts.find(post => post.slug === slug);
+
+    if (!post) throw new Error('Post não encontrado');
+
+    return post;
+  }
+}
