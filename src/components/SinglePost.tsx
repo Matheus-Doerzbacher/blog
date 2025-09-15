@@ -1,8 +1,8 @@
 import { findPostsBySlugCached } from '@/lib/post/queries';
 import Image from 'next/image';
-import PostDate from '../PostDate';
-import PostHeading from '../PostHeading';
-import SafeMarkdown from '../SafeMarkdown';
+import PostDate from './PostDate';
+import PostHeading from './PostHeading';
+import SafeMarkdown from './SafeMarkdown';
 
 type SinglePostProps = {
   slug: string;
