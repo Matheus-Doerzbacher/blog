@@ -12,7 +12,7 @@ const JSON_POSTS_FILES_PATH = resolve(
   'posts.json'
 );
 
-const TIMEOUT = 1000;
+const TIMEOUT = 0;
 
 export class JsonPostRepository implements PostRepository {
   private async readFromDisk(): Promise<PostModel[]> {
